@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="kmm_transparent">#00000000</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="background">#F0F1F2</color>
+    <color name="red">#EB5353</color>
+    <color name="gray">#C4C7CC</color>
+    <color name="black">#2F3033</color>
+    <color name="blue">#3168CB</color>
+    <color name="white">#FFFFFF</color>
+    <color name="yellow">#F7BC31</color>
+    <color name="green">#12AD6C</color>
+    <color name="pink">#F04A92</color>
+    <color name="e8e8e8">#e8e8e8</color>
+
+
+    <color name="color_start">#00CFDB</color>
+    <color name="color_end">#0063A6</color>
+
+
+
+</resources>
