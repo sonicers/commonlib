@@ -1,86 +1,59 @@
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: "maven-publish"
 apply plugin: 'com.jfrog.bintray'
 
-// 版本
-version = "0.0.2"
+group = "com.sonicers"
+version = "0.0.5"
 
-// 根节点添加
-def siteUrl = 'https://github.com/sonicers/commonlib'    // project homepage
 def gitUrl = 'https://github.com/sonicers/commonlib.git' // project git
 
-// 根节点添加
-group = "com.sonicers"
 
-// 根节点添加
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
-                name 'sonicers commonlib'
-                url siteUrl
-                // Set your license
-                licenses {
-                    license {
-                        name 'MIT License'
-                        url 'https://raw.githubusercontent.com/sonicers/commonlib/master/LICENSE'
+publishing {
+    publications {
+        Production(MavenPublication) {
+            artifact("$buildDir/outputs/aar/commonlib-release.aar")
+            groupId group
+            artifactId 'commonlib'
+            version this.version
+
+            pom.withXml {
+
+                // Define this explicitly if using implementation or api configurations
+                def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')
+
+                // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
+                configurations.implementation.allDependencies.each {
+                    // Ensure dependencies such as fileTree are not included.
+                    if (it.name != 'unspecified') {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
                     }
-                }
-                developers {
-                    developer { //填写的一些基本信息
-                        id 'iponkan'
-                        name 'hiccup.you'
-                        email 'iponkan@gmail.com'
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
                 }
             }
         }
     }
 }
 
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    failOnError false
-}
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-javadoc {
-    options {
-        encoding "UTF-8"
-        charSet 'UTF-8'
-    }
-}
-
-//配置bintray参数
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
 bintray {
-    user = properties.getProperty("bintrayUser")
-    key = properties.getProperty("bintrayApiKey")
+    user = 'iponkan'
+    key = '2dfb9c9e9652f9b93a5285fa28ec2b3bd59a7154'
+    publications = ['Production']
     configurations = ['archives']
+    override = true
     pkg {
-        repo = "maven"               //跟上面创建的Maven仓库名字保持一致
+        repo = "maven"               //跟JCenter创建的Maven仓库名字保持一致
         name = "commonlib"                //发布到JCenter上的项目名字
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ["MIT"]
+        description = "Android commonlib for fast develop"
         publish = true
+        publicDownloadNumbers = true
+        licenses = ["MIT"]
+        vcsUrl = gitUrl
+        version {
+            name = this.version
+            desc = "commonlib ${this.version}"
+            released = new Date()
+            vcsTag = this.version
+        }
     }
 }
