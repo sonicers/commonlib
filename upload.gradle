@@ -2,15 +2,40 @@ apply plugin: "maven-publish"
 apply plugin: 'com.jfrog.bintray'
 
 group = "com.sonicers"
-version = "0.0.5"
+version = "0.0.8"
 
 def gitUrl = 'https://github.com/sonicers/commonlib.git' // project git
 
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    failOnError false
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+javadoc {
+    options {
+        encoding "UTF-8"
+        charSet 'UTF-8'
+    }
+}
 
 publishing {
     publications {
         Production(MavenPublication) {
             artifact("$buildDir/outputs/aar/commonlib-release.aar")
+            artifact sourcesJar
+            artifact javadocJar
             groupId group
             artifactId 'commonlib'
             version this.version
@@ -36,8 +61,14 @@ publishing {
 }
 
 bintray {
-    user = 'iponkan'
-    key = '2dfb9c9e9652f9b93a5285fa28ec2b3bd59a7154'
+    Properties propertyReader = new Properties()
+//    logger.log(LogLevel.ERROR, "${rootDir}${File.separator}local.properties")
+    propertyReader.load(new FileInputStream("${rootDir}${File.separator}local.properties"))
+    user = propertyReader.bintrayUser.toString()
+    key = propertyReader.bintrayApiKey.toString()
+//    logger.log(LogLevel.ERROR, "user===" + user)
+//    logger.log(LogLevel.ERROR, "key===" + key)
+
     publications = ['Production']
     configurations = ['archives']
     override = true
