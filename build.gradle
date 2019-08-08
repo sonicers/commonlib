@@ -50,9 +50,6 @@ dependencies {
 
     // rxJava
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
-// Because RxAndroid releases are few and far between, it is recommended you also
-// explicitly depend on RxJava's latest version for bug fixes and new features.
-// (see https://github.com/ReactiveX/RxJava/releases for latest 2.x.x version)
     api 'io.reactivex.rxjava2:rxjava:2.2.9'
 
     // 网络
@@ -62,17 +59,16 @@ dependencies {
     api 'com.squareup.retrofit2:converter-gson:2.3.0'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
-    //logger
+    //日志打印工具logger
     api 'com.orhanobut:logger:2.2.0'
 
-    //utils
+    //工具类utils
     api 'com.blankj:utilcode:1.23.0'
 
-    //QRCode
+    //二维码QRCode
     api 'com.google.zxing:core:3.3.3'
 
-    api 'com.github.prolificinteractive:material-calendarview:2.0.1'
-
+    // view绑定
     api 'com.jakewharton:butterknife:10.1.0'
 
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
