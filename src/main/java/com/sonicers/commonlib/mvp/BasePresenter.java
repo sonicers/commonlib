@@ -1,4 +1,4 @@
-package com.sonicers.commonlib.base;
+package com.sonicers.commonlib.mvp;
 
 
 import android.annotation.SuppressLint;
