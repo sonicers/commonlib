@@ -5,7 +5,7 @@
 本库依赖一些常用的开源库，并支持kotlin，使用方式
 
 ```groovy
-implementation('com.sonicers:commonlib:0.0.9') {
+implementation('com.sonicers:commonlib:0.0.11') {
     transitive = true//依赖传递为true时才能把依赖的库打进去
 }
 ```
@@ -93,14 +93,6 @@ implementation('com.sonicers:commonlib:0.0.9') {
 ### rxjava
 
 封装rxjava线程切换符，可以使用`compose(RxSchedulers.io_main())`实现在io线程执行耗时操作，主线程回调。
-
-### 网络
-
-通常网络操作对于同一个服务器的返回结果可以进行很多同样处理，这也是库里BaseObserver的使用方法，通过继承这个Observer可以实现剥离数据的观察者。使用方式
-
-```java
-.subscribeWith(new BaseObserver<DataBean>() {}
-```
 
 ### 单例
 
