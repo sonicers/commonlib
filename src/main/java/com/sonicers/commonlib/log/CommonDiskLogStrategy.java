@@ -14,6 +14,7 @@ import com.orhanobut.logger.LogStrategy;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Calendar;
 
 public class CommonDiskLogStrategy implements LogStrategy {
     @NonNull
@@ -50,7 +51,11 @@ public class CommonDiskLogStrategy implements LogStrategy {
             String content = (String) msg.obj;
 
             FileWriter fileWriter = null;
-            File logFile = getLogFile(folder, "logs");
+
+            int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+            int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            String filename = month + "-" + day;
+            File logFile = getLogFile(folder, filename);
 
             try {
                 fileWriter = new FileWriter(logFile, true);
@@ -97,11 +102,11 @@ public class CommonDiskLogStrategy implements LogStrategy {
             File newFile;
             File existingFile = null;
 
-            newFile = new File(folder, String.format("%s_%s.log", fileName, newFileCount));
+            newFile = new File(folder, String.format("%s_%s.txt", fileName, newFileCount));
             while (newFile.exists()) {
                 existingFile = newFile;
                 newFileCount++;
-                newFile = new File(folder, String.format("%s_%s.log", fileName, newFileCount));
+                newFile = new File(folder, String.format("%s_%s.txt", fileName, newFileCount));
             }
 
             if (existingFile != null) {
