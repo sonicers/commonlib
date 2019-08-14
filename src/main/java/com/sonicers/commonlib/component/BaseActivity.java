@@ -7,12 +7,15 @@ import com.trello.rxlifecycle3.components.support.RxAppCompatActivity;
 
 public class BaseActivity extends RxAppCompatActivity {
 
-    LoadingDialog loadingDialog;
+    protected LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        FullScreenUtil.initFullScreen(this);
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.Companion.get(this);
+        }
     }
 
     @Override
@@ -22,10 +25,9 @@ public class BaseActivity extends RxAppCompatActivity {
     }
 
     public void showLoadingDialog() {
-        if (loadingDialog == null) {
-            loadingDialog = LoadingDialog.Companion.get(this);
+        if (loadingDialog != null) {
+            loadingDialog.show();
         }
-        loadingDialog.show();
     }
 
     public void dismissLoadingDialog() {

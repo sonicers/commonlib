@@ -11,6 +11,11 @@ class LoadingDialog private constructor(internal var activity: Activity) {
     internal var isShowing = false
     internal var loadingView: LoadingView? = null
     internal var alertDialog: AlertDialog? = null
+    var context: Activity? = null
+
+    init {
+        context = activity
+    }
 
     fun show(): LoadingDialog {
         if (!isShowing && alertDialog != null) {
