@@ -13,6 +13,5 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application>
-        <activity android:name=".debug.DebugActivity" />
     </application>
 </manifest>

@@ -1,6 +1,5 @@
 package com.sonicers.commonlib.log;
 
-import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -130,10 +129,8 @@ public class CommonDiskLogStrategy implements LogStrategy {
 
     private static final int MAX_BYTES = 500 * 1024; // 500K averages to a 4000 lines per file
 
-    public static CommonDiskLogStrategy getInstance() {
-        String diskPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        String folder = diskPath + File.separatorChar + "WatchTower" + File.separatorChar + "logger";
-
+    public static CommonDiskLogStrategy getInstance(String path) {
+        String folder = path + File.separatorChar + "logger";
         HandlerThread ht = new HandlerThread("AndroidFileLogger." + folder);
         ht.start();
         Handler handler = new WriteHandler(ht.getLooper(), folder, MAX_BYTES);

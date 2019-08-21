@@ -55,7 +55,6 @@ public class SteerView extends View {
         defaultParentSize = dp2px(getContext(), 100);
     }
 
-
     public SteerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         getAzimuthCircleAttrs(attrs);
@@ -81,7 +80,6 @@ public class SteerView extends View {
 
         maxParentSize = Math.max(maxParentSize, getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec));
         setMeasuredDimension(maxParentSize, maxParentSize);
-
     }
 
     private boolean shouldIntercept(float x, float y) {
@@ -112,7 +110,7 @@ public class SteerView extends View {
                 pressDirection = getPressDirection(event.getX(), event.getY());
                 consumeTouchEvent = shouldIntercept(event.getX(), event.getY());
                 Log.i(TAG, "pressDirection:" + pressDirection);
-                if (listener != null) {
+                if (listener != null && (pressDirection != NONE_PRESS)) {
                     listener.onPressDirection(pressDirection);
                 }
                 if (consumeTouchEvent) {
@@ -192,7 +190,6 @@ public class SteerView extends View {
             return RIGHT_PRESS;
         }
     }
-
 
     @Override
     protected void onDraw(Canvas canvas) {
