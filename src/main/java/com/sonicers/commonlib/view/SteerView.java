@@ -135,7 +135,7 @@ public class SteerView extends View {
                 break;
         }
 
-        Log.i(TAG, "consumeTouchEvent:" + consumeTouchEvent);
+//        Log.i(TAG, "consumeTouchEvent:" + consumeTouchEvent);
 //        LogAs.i(TAG, "onTouch:" + onTouch);
 
         return consumeTouchEvent;
