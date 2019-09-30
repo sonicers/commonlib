@@ -2,13 +2,13 @@ apply plugin: "maven-publish"
 apply plugin: 'com.jfrog.bintray'
 
 group = "com.sonicers"
-version = "0.0.12"
+version = "0.0.13"
 
 def gitUrl = 'https://github.com/sonicers/commonlib.git' // project git
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
+    archiveClassifier.set('sources')
 }
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
@@ -16,7 +16,7 @@ task javadoc(type: Javadoc) {
     failOnError false
 }
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    archiveClassifier.set('javadoc')
     from javadoc.destinationDir
 }
 artifacts {
@@ -62,12 +62,9 @@ publishing {
 
 bintray {
     Properties propertyReader = new Properties()
-//    logger.log(LogLevel.ERROR, "${rootDir}${File.separator}local.properties")
-    propertyReader.load(new FileInputStream("${rootDir}${File.separator}local.properties"))
+    propertyReader.load(new FileInputStream("${projectDir}${File.separator}jcenter.properties"))
     user = propertyReader.bintrayUser.toString()
     key = propertyReader.bintrayApiKey.toString()
-//    logger.log(LogLevel.ERROR, "user===" + user)
-//    logger.log(LogLevel.ERROR, "key===" + key)
 
     publications = ['Production']
     configurations = ['archives']
