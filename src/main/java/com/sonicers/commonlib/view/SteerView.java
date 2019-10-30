@@ -16,6 +16,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 
 import com.sonicers.commonlib.R;
+import com.sonicers.commonlib.util.ToastUtil;
 
 /**
  * SteerView for IR Control or others
@@ -101,8 +102,18 @@ public class SteerView extends View {
 
     private boolean consumeTouchEvent;
 
+    private boolean antiTouch;
+
+    public void antiTouch(boolean b) {
+        antiTouch = b;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (antiTouch) {
+            ToastUtil.showToastShort(getContext(), "请停止监火方能操作");
+            return true;
+        }
         super.onTouchEvent(event);
         Log.i(TAG, "event:" + event.getAction());
         switch (event.getAction()) {
