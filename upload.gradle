@@ -4,6 +4,7 @@ apply plugin: 'com.jfrog.bintray'
 group = "com.sonicers"
 version = "0.0.13"
 
+def configFile = 'jcenter.properties'
 def gitUrl = 'https://github.com/sonicers/commonlib.git' // project git
 
 task sourcesJar(type: Jar) {
@@ -61,10 +62,15 @@ publishing {
 }
 
 bintray {
-    Properties propertyReader = new Properties()
-    propertyReader.load(new FileInputStream("${projectDir}${File.separator}jcenter.properties"))
-    user = propertyReader.bintrayUser.toString()
-    key = propertyReader.bintrayApiKey.toString()
+    def customGradle = new File(getProjectDir(), configFile)
+    if (customGradle.exists()) {
+        Properties propertyReader = new Properties()
+        propertyReader.load(new FileInputStream("${projectDir}${File.separator}${configFile}"))
+        user = propertyReader.bintrayUser.toString()
+        key = propertyReader.bintrayApiKey.toString()
+    } else {
+        logger.lifecycle("not config file!!!!!!!!!!!")
+    }
 
     publications = ['Production']
     configurations = ['archives']
