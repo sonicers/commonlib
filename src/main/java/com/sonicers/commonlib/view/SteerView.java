@@ -111,7 +111,7 @@ public class SteerView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (antiTouch) {
-            ToastUtil.showToastShort(getContext(), "请停止监火方能操作");
+            ToastUtil.showToastShort(getContext(), "请停止监火方能操作~");
             return true;
         }
         super.onTouchEvent(event);
