@@ -5,7 +5,7 @@
 本库依赖一些常用的开源库，并支持kotlin，使用方式
 
 ```groovy
-implementation('com.sonicers:commonlib:0.0.11') {
+implementation('com.sonicers:commonlib:0.0.14') {
     transitive = true//依赖传递为true时才能把依赖的库打进去
 }
 ```
